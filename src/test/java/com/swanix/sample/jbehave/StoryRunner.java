@@ -1,7 +1,8 @@
 package com.swanix.sample.jbehave;
 
-import com.github.valfirst.jbehave.junit.monitoring.JUnitReportingRunner;
+import com.swanix.sample.app.SampleApplication;
 import com.swanix.sample.jbehave.step.SampleSteps;
+import com.swanix.sample.jbehave.step.ServiceSteps;
 import lombok.extern.slf4j.Slf4j;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
@@ -14,13 +15,25 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
 import java.util.List;
 
 @Slf4j
-@RunWith(JUnitReportingRunner.class)
+@SpringBootTest(classes = SampleApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@RunWith(JUnitReportingRunner.class)
+@RunWith(SpringRunner.class)
 public class StoryRunner extends JUnitStories {
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
     private static String storyPath = "resources/stories/**/*.story";
 
@@ -50,7 +63,7 @@ public class StoryRunner extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new SampleSteps());
+        return new InstanceStepsFactory(configuration(), new SampleSteps(), new ServiceSteps(testRestTemplate, port));
     }
 
     @Override
