@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2020-04-04-01" author="kumnitin" dbms="h2,mysql">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="STUDENT" schemaName="sample"/>
+        </preConditions>
+        <dropTable tableName="STUDENT" schemaName="sample" cascadeConstraints="true"/>
+    </changeSet>
+
+    <changeSet author="kumnitin" id="2020-04-04-02" dbms="all">
+        <createTable tableName="STUDENT" schemaName="sample" remarks="Table to store student info">
+            <column name="ID" type="BIGINT" remarks="ID of the student">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(50)" remarks="Name of the student">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AGE" type="INT" remarks="Age of the student">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="STUDENT"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2020-04-04-03" author="kumnitin" dbms="h2,mysql">
+        <insert schemaName="sample" tableName="STUDENT" remarks="Insert sample entry into student table">
+            <column name="ID" value="1"/>
+            <column name="NAME" value="Nitin Kumar"/>
+            <column name="AGE" value="28"/>
+        </insert>
+
+        <rollback>
+            <delete schemaName="sample" tableName="STUDENT">
+                <where>ID=1</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2020-04-05-01" author="kumnitin" dbms="h2,mysql">
+        <addColumn schemaname="sample" tableName="STUDENT">
+            <column name="POINTS" type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
