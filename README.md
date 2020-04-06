@@ -20,6 +20,10 @@ create database sample;
 
 use sample;
 
+show tables;
+
+exit
+
 ####Copy Jar :
 
 scp -i C:\Users\nitti\Downloads\app\EC2KeyPairSample.pem C:\Users\nitti\Downloads\app\sample-0.0.1-SNAPSHOT.jar ec2-user@ec2-3-16-183-7.us-east-2.compute.amazonaws.com:~
