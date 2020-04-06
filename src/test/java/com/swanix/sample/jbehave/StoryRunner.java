@@ -14,6 +14,7 @@ import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +43,12 @@ public class StoryRunner extends JUnitStories {
         if (systemStoryPath != null && !systemStoryPath.isEmpty()) {
             storyPath = systemStoryPath;
         }
+    }
+
+    @Override
+    @Test
+    public void run() {
+        super.run();
     }
 
     @Override
