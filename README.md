@@ -1,7 +1,7 @@
 
-##Copy Project to EC2 instance for deployment :
+###Copy Project to EC2 instance for deployment :
 
-###Syntax of scp :
+####Syntax of scp :
 #####scp -i <path to pem file on local machine> <path to spring boot project or your deliverables>  user@remote_host_name:~
 ~ represents the home directory of the remote EC2 system.
 
